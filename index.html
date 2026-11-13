@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f7fb" />
+    <meta
+      name="description"
+      content="নিজের শেখার লক্ষ্য, অগ্রগতি আর পড়ার সময় গুছিয়ে রাখুন।"
+    />
+    <title>শিখি — আমার শেখার খাতা</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="শিখি হোম">
+          <span class="brand-mark">শি</span>
+          <span>শিখি<span class="brand-dot">.</span></span>
+        </a>
+
+        <div class="sidebar-label">ওয়ার্কস্পেস</div>
+        <nav class="navigation" aria-label="মূল নেভিগেশন">
+          <a class="nav-link is-active" href="#overview">
+            <span class="nav-icon" aria-hidden="true">⌂</span>
+            ওভারভিউ
+          </a>
+          <a class="nav-link" href="#goals">
+            <span class="nav-icon" aria-hidden="true">◎</span>
+            আমার লক্ষ্য
+            <span class="nav-count" id="goal-nav-count">০</span>
+          </a>
+          <a class="nav-link" href="#activity">
+            <span class="nav-icon" aria-hidden="true">◷</span>
+            পড়ার ইতিহাস
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-note">
+            <span class="note-sparkle" aria-hidden="true">✦</span>
+            <p>প্রতিদিন একটু একটু করে—এভাবেই বড় কিছু শেখা হয়।</p>
+            <span class="note-caption">আজকের ছোট্ট মনে করিয়ে দেওয়া</span>
+          </div>
+          <div class="profile">
+            <div class="profile-avatar">আ</div>
+            <div>
+              <strong>আমার শেখার খাতা</strong>
+              <span>ব্যক্তিগত ওয়ার্কস্পেস</span>
+            </div>
+            <span class="profile-menu" aria-hidden="true">···</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content" id="overview">
+        <header class="topbar">
+          <div class="breadcrumb"><span>ওয়ার্কস্পেস</span><span class="crumb-separator">/</span> ওভারভিউ</div>
+          <div class="topbar-date"><span class="date-dot"></span><span id="today-label"></span></div>
+        </header>
+
+        <section class="welcome-row">
+          <div>
+            <p class="eyebrow">তোমার শেখার জার্নাল</p>
+            <h1>শুভেচ্ছা! <span class="wave" aria-hidden="true">✦</span></h1>
+            <p class="welcome-copy">আজ কী শিখবে? ছোট্ট একটা পদক্ষেপই যথেষ্ট।</p>
+          </div>
+          <button class="button button-primary" id="add-goal-button" type="button">
+            <span aria-hidden="true">＋</span> নতুন লক্ষ্য
+          </button>
+        </section>
+
+        <section class="stats-grid" aria-label="শেখার সারসংক্ষেপ">
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon icon-lilac">◷</span><span class="stat-period">এই সপ্তাহে</span></div>
+            <div class="stat-value"><span id="weekly-hours">০</span><span class="stat-unit">ঘণ্টা</span></div>
+            <div class="stat-caption">শেখার পেছনে সময়</div>
+            <div class="stat-decoration decoration-lilac" aria-hidden="true"></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon icon-mint">◎</span><span class="stat-period">চলমান</span></div>
+            <div class="stat-value"><span id="active-goals">০</span><span class="stat-unit">টি লক্ষ্য</span></div>
+            <div class="stat-caption">এখন শিখছো</div>
+            <div class="stat-decoration decoration-mint" aria-hidden="true"></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon icon-peach">✓</span><span class="stat-period">দারুণ!</span></div>
+            <div class="stat-value"><span id="completed-goals">০</span><span class="stat-unit">টি লক্ষ্য</span></div>
+            <div class="stat-caption">সম্পন্ন হয়েছে</div>
+            <div class="stat-decoration decoration-peach" aria-hidden="true"></div>
+          </article>
+          <article class="stat-card stat-card-focus">
+            <div class="stat-top"><span class="stat-icon icon-blue">✦</span><span class="stat-period">আজ</span></div>
+            <div class="stat-value"><span id="today-minutes">০</span><span class="stat-unit">মিনিট</span></div>
+            <div class="stat-caption">আজকের শেখা</div>
+            <button class="quick-session" id="quick-session-button" type="button">সময় যোগ করো <span aria-hidden="true">↗</span></button>
+          </article>
+        </section>
+
+        <div class="content-grid">
+          <section class="panel goals-panel" id="goals">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">তোমার পথচলা</p>
+                <h2>শেখার লক্ষ্য</h2>
+              </div>
+              <button class="text-button" id="show-all-button" type="button">সবগুলো দেখো <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="goal-filters" role="group" aria-label="লক্ষ্য ফিল্টার">
+              <button class="filter-chip is-selected" data-filter="all" type="button">সব <span id="all-filter-count">০</span></button>
+              <button class="filter-chip" data-filter="active" type="button">চলমান</button>
+              <button class="filter-chip" data-filter="completed" type="button">সম্পন্ন</button>
+            </div>
+            <div class="goals-list" id="goals-list"></div>
+          </section>
+
+          <div class="right-column">
+            <section class="panel week-panel">
+              <div class="section-heading compact-heading">
+                <div>
+                  <p class="eyebrow">নিয়মিত থাকো</p>
+                  <h2>এই সপ্তাহ</h2>
+                </div>
+                <span class="week-badge">শেষ ৭ দিন</span>
+              </div>
+              <div class="week-chart" id="week-chart" aria-label="গত সাত দিনের শেখার সময়"></div>
+              <div class="chart-footer"><span class="chart-dot"></span><span>পড়ার সময়</span><strong id="chart-total">০ মিনিট</strong></div>
+            </section>
+
+            <section class="panel activity-panel" id="activity">
+              <div class="section-heading compact-heading">
+                <div>
+                  <p class="eyebrow">ছোট ছোট জয়</p>
+                  <h2>সাম্প্রতিক পড়া</h2>
+                </div>
+                <span class="activity-icon" aria-hidden="true">↗</span>
+              </div>
+              <div class="activity-list" id="activity-list"></div>
+            </section>
+          </div>
+        </div>
+        <footer class="footer-note">তোমার অগ্রগতি শুধু এই ব্রাউজারেই সংরক্ষিত থাকে। <span aria-hidden="true">♥</span></footer>
+      </main>
+    </div>
+
+    <dialog class="app-dialog" id="goal-dialog">
+      <form class="dialog-form" id="goal-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">নতুন অধ্যায়</p><h2 id="goal-dialog-title">নতুন শেখার লক্ষ্য</h2></div>
+          <button class="dialog-close" type="button" data-close-dialog aria-label="বন্ধ করো">×</button>
+        </div>
+        <label class="field-label" for="goal-title">কী শিখতে চাও?</label>
+        <input class="text-input" id="goal-title" name="title" maxlength="70" placeholder="যেমন: জাভাস্ক্রিপ্ট শেখা" required />
+        <label class="field-label" for="goal-category">বিষয়</label>
+        <select class="text-input" id="goal-category" name="category">
+          <option value="প্রোগ্রামিং">প্রোগ্রামিং</option>
+          <option value="ভাষা">ভাষা</option>
+          <option value="ডিজাইন">ডিজাইন</option>
+          <option value="ব্যবসা">ব্যবসা</option>
+          <option value="ব্যক্তিগত উন্নয়ন">ব্যক্তিগত উন্নয়ন</option>
+          <option value="অন্যান্য">অন্যান্য</option>
+        </select>
+        <div class="form-row">
+          <div><label class="field-label" for="goal-hours">লক্ষ্য সময় (ঘণ্টা)</label><input class="text-input" id="goal-hours" name="targetHours" type="number" min="1" max="10000" value="20" required /></div>
+          <div><label class="field-label" for="goal-progress">এখন পর্যন্ত (%)</label><input class="text-input" id="goal-progress" name="progress" type="number" min="0" max="100" value="0" required /></div>
+        </div>
+        <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>বাতিল</button><button class="button button-primary" id="goal-submit" type="submit">লক্ষ্য যোগ করো</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="app-dialog" id="session-dialog">
+      <form class="dialog-form" id="session-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">আজকের অগ্রগতি</p><h2>পড়ার সময় যোগ করো</h2></div>
+          <button class="dialog-close" type="button" data-close-dialog aria-label="বন্ধ করো">×</button>
+        </div>
+        <label class="field-label" for="session-goal">কোন লক্ষ্য নিয়ে পড়েছো?</label>
+        <select class="text-input" id="session-goal" name="goalId" required></select>
+        <label class="field-label" for="session-minutes">কতক্ষণ পড়েছো? (মিনিট)</label>
+        <input class="text-input" id="session-minutes" name="minutes" type="number" min="1" max="1440" placeholder="যেমন: ৩০" required />
+        <label class="field-label" for="session-note">ছোট্ট নোট <span class="optional-label">ঐচ্ছিক</span></label>
+        <input class="text-input" id="session-note" name="note" maxlength="100" placeholder="আজ কী শিখলে?" />
+        <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>বাতিল</button><button class="button button-primary" type="submit">সময় সংরক্ষণ করো</button></div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f7fb" />
+    <meta
+      name="description"
+      content="নিজের শেখার লক্ষ্য, অগ্রগতি আর পড়ার সময় গুছিয়ে রাখুন।"
+    />
+    <title>শিখি — আমার শেখার খাতা</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="শিখি হোম">
+          <span class="brand-mark">শি</span>
+          <span>শিখি<span class="brand-dot">.</span></span>
+        </a>
+
+        <div class="sidebar-label">ওয়ার্কস্পেস</div>
+        <nav class="navigation" aria-label="মূল নেভিগেশন">
+          <a class="nav-link is-active" href="#overview">
+            <span class="nav-icon" aria-hidden="true">⌂</span>
+            ওভারভিউ
+          </a>
+          <a class="nav-link" href="#goals">
+            <span class="nav-icon" aria-hidden="true">◎</span>
+            আমার লক্ষ্য
+            <span class="nav-count" id="goal-nav-count">০</span>
+          </a>
+          <a class="nav-link" href="#activity">
+            <span class="nav-icon" aria-hidden="true">◷</span>
+            পড়ার ইতিহাস
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-note">
+            <span class="note-sparkle" aria-hidden="true">✦</span>
+            <p>প্রতিদিন একটু একটু করে—এভাবেই বড় কিছু শেখা হয়।</p>
+            <span class="note-caption">আজকের ছোট্ট মনে করিয়ে দেওয়া</span>
+          </div>
+          <div class="profile">
+            <div class="profile-avatar">আ</div>
+            <div>
+              <strong>আমার শেখার খাতা</strong>
+              <span>ব্যক্তিগত ওয়ার্কস্পেস</span>
+            </div>
+            <span class="profile-menu" aria-hidden="true">···</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content" id="overview">
+        <header class="topbar">
+          <div class="breadcrumb"><span>ওয়ার্কস্পেস</span><span class="crumb-separator">/</span> ওভারভিউ</div>
+          <div class="topbar-date"><span class="date-dot"></span><span id="today-label"></span></div>
+        </header>
+
+        <section class="welcome-row">
+          <div>
+            <p class="eyebrow">তোমার শেখার জার্নাল</p>
+            <h1>শুভেচ্ছা! <span class="wave" aria-hidden="true">✦</span></h1>
+            <p class="welcome-copy">আজ কী শিখবে? ছোট্ট একটা পদক্ষেপই যথেষ্ট।</p>
+          </div>
+          <button class="button button-primary" id="add-goal-button" type="button">
+            <span aria-hidden="true">＋</span> নতুন লক্ষ্য
+          </button>
+        </section>
+
+        <section class="stats-grid" aria-label="শেখার সারসংক্ষেপ">
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon icon-lilac">◷</span><span class="stat-period">এই সপ্তাহে</span></div>
+            <div class="stat-value"><span id="weekly-hours">০</span><span class="stat-unit">ঘণ্টা</span></div>
+            <div class="stat-caption">শেখার পেছনে সময়</div>
+            <div class="stat-decoration decoration-lilac" aria-hidden="true"></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon icon-mint">◎</span><span class="stat-period">চলমান</span></div>
+            <div class="stat-value"><span id="active-goals">০</span><span class="stat-unit">টি লক্ষ্য</span></div>
+            <div class="stat-caption">এখন শিখছো</div>
+            <div class="stat-decoration decoration-mint" aria-hidden="true"></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon icon-peach">✓</span><span class="stat-period">দারুণ!</span></div>
+            <div class="stat-value"><span id="completed-goals">০</span><span class="stat-unit">টি লক্ষ্য</span></div>
+            <div class="stat-caption">সম্পন্ন হয়েছে</div>
+            <div class="stat-decoration decoration-peach" aria-hidden="true"></div>
+          </article>
+          <article class="stat-card stat-card-focus">
+            <div class="stat-top"><span class="stat-icon icon-blue">✦</span><span class="stat-period">আজ</span></div>
+            <div class="stat-value"><span id="today-minutes">০</span><span class="stat-unit">মিনিট</span></div>
+            <div class="stat-caption">আজকের শেখা</div>
+            <button class="quick-session" id="quick-session-button" type="button">সময় যোগ করো <span aria-hidden="true">↗</span></button>
+          </article>
+        </section>
+
+        <div class="content-grid">
+          <section class="panel goals-panel" id="goals">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">তোমার পথচলা</p>
+                <h2>শেখার লক্ষ্য</h2>
+              </div>
+              <button class="text-button" id="show-all-button" type="button">সবগুলো দেখো <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="goal-filters" role="group" aria-label="লক্ষ্য ফিল্টার">
+              <button class="filter-chip is-selected" data-filter="all" type="button">সব <span id="all-filter-count">০</span></button>
+              <button class="filter-chip" data-filter="active" type="button">চলমান</button>
+              <button class="filter-chip" data-filter="completed" type="button">সম্পন্ন</button>
+            </div>
+            <div class="goals-list" id="goals-list"></div>
+          </section>
+
+          <div class="right-column">
+            <section class="panel week-panel">
+              <div class="section-heading compact-heading">
+                <div>
+                  <p class="eyebrow">নিয়মিত থাকো</p>
+                  <h2>এই সপ্তাহ</h2>
+                </div>
+                <span class="week-badge">শেষ ৭ দিন</span>
+              </div>
+              <div class="week-chart" id="week-chart" aria-label="গত সাত দিনের শেখার সময়"></div>
+              <div class="chart-footer"><span class="chart-dot"></span><span>পড়ার সময়</span><strong id="chart-total">০ মিনিট</strong></div>
+            </section>
+
+            <section class="panel activity-panel" id="activity">
+              <div class="section-heading compact-heading">
+                <div>
+                  <p class="eyebrow">ছোট ছোট জয়</p>
+                  <h2>সাম্প্রতিক পড়া</h2>
+                </div>
+                <span class="activity-icon" aria-hidden="true">↗</span>
+              </div>
+              <div class="activity-list" id="activity-list"></div>
+            </section>
+          </div>
+        </div>
+        <footer class="footer-note">তোমার অগ্রগতি শুধু এই ব্রাউজারেই সংরক্ষিত থাকে। <span aria-hidden="true">♥</span></footer>
+      </main>
+    </div>
+
+    <dialog class="app-dialog" id="goal-dialog">
+      <form class="dialog-form" id="goal-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">নতুন অধ্যায়</p><h2 id="goal-dialog-title">নতুন শেখার লক্ষ্য</h2></div>
+          <button class="dialog-close" type="button" data-close-dialog aria-label="বন্ধ করো">×</button>
+        </div>
+        <label class="field-label" for="goal-title">কী শিখতে চাও?</label>
+        <input class="text-input" id="goal-title" name="title" maxlength="70" placeholder="যেমন: জাভাস্ক্রিপ্ট শেখা" required />
+        <label class="field-label" for="goal-category">বিষয়</label>
+        <select class="text-input" id="goal-category" name="category">
+          <option value="প্রোগ্রামিং">প্রোগ্রামিং</option>
+          <option value="ভাষা">ভাষা</option>
+          <option value="ডিজাইন">ডিজাইন</option>
+          <option value="ব্যবসা">ব্যবসা</option>
+          <option value="ব্যক্তিগত উন্নয়ন">ব্যক্তিগত উন্নয়ন</option>
+          <option value="অন্যান্য">অন্যান্য</option>
+        </select>
+        <div class="form-row">
+          <div><label class="field-label" for="goal-hours">লক্ষ্য সময় (ঘণ্টা)</label><input class="text-input" id="goal-hours" name="targetHours" type="number" min="1" max="10000" value="20" required /></div>
+          <div><label class="field-label" for="goal-progress">এখন পর্যন্ত (%)</label><input class="text-input" id="goal-progress" name="progress" type="number" min="0" max="100" value="0" required /></div>
+        </div>
+        <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>বাতিল</button><button class="button button-primary" id="goal-submit" type="submit">লক্ষ্য যোগ করো</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="app-dialog" id="session-dialog">
+      <form class="dialog-form" id="session-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">আজকের অগ্রগতি</p><h2>পড়ার সময় যোগ করো</h2></div>
+          <button class="dialog-close" type="button" data-close-dialog aria-label="বন্ধ করো">×</button>
+        </div>
+        <label class="field-label" for="session-goal">কোন লক্ষ্য নিয়ে পড়েছো?</label>
+        <select class="text-input" id="session-goal" name="goalId" required></select>
+        <label class="field-label" for="session-minutes">কতক্ষণ পড়েছো? (মিনিট)</label>
+        <input class="text-input" id="session-minutes" name="minutes" type="number" min="1" max="1440" placeholder="যেমন: ৩০" required />
+        <label class="field-label" for="session-note">ছোট্ট নোট <span class="optional-label">ঐচ্ছিক</span></label>
+        <input class="text-input" id="session-note" name="note" maxlength="100" placeholder="আজ কী শিখলে?" />
+        <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>বাতিল</button><button class="button button-primary" type="submit">সময় সংরক্ষণ করো</button></div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f7fb" />
+    <meta
+      name="description"
+      content="নিজের শেখার লক্ষ্য, অগ্রগতি আর পড়ার সময় গুছিয়ে রাখুন।"
+    />
+    <title>শিখি — আমার শেখার খাতা</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="শিখি হোম">
+          <span class="brand-mark">শি</span>
+          <span>শিখি<span class="brand-dot">.</span></span>
+        </a>
+
+        <div class="sidebar-label">ওয়ার্কস্পেস</div>
+        <nav class="navigation" aria-label="মূল নেভিগেশন">
+          <a class="nav-link is-active" href="#overview">
+            <span class="nav-icon" aria-hidden="true">⌂</span>
+            ওভারভিউ
+          </a>
+          <a class="nav-link" href="#goals">
+            <span class="nav-icon" aria-hidden="true">◎</span>
+            আমার লক্ষ্য
+            <span class="nav-count" id="goal-nav-count">০</span>
+          </a>
+          <a class="nav-link" href="#activity">
+            <span class="nav-icon" aria-hidden="true">◷</span>
+            পড়ার ইতিহাস
+          </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="sidebar-note">
+            <span class="note-sparkle" aria-hidden="true">✦</span>
+            <p>প্রতিদিন একটু একটু করে—এভাবেই বড় কিছু শেখা হয়।</p>
+            <span class="note-caption">আজকের ছোট্ট মনে করিয়ে দেওয়া</span>
+          </div>
+          <div class="profile">
+            <div class="profile-avatar">আ</div>
+            <div>
+              <strong>আমার শেখার খাতা</strong>
+              <span>ব্যক্তিগত ওয়ার্কস্পেস</span>
+            </div>
+            <span class="profile-menu" aria-hidden="true">···</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content" id="overview">
+        <header class="topbar">
+          <div class="breadcrumb"><span>ওয়ার্কস্পেস</span><span class="crumb-separator">/</span> ওভারভিউ</div>
+          <div class="topbar-date"><span class="date-dot"></span><span id="today-label"></span></div>
+        </header>
+
+        <section class="welcome-row">
+          <div>
+            <p class="eyebrow">তোমার শেখার জার্নাল</p>
+            <h1>শুভেচ্ছা! <span class="wave" aria-hidden="true">✦</span></h1>
+            <p class="welcome-copy">আজ কী শিখবে? ছোট্ট একটা পদক্ষেপই যথেষ্ট।</p>
+          </div>
+          <button class="button button-primary" id="add-goal-button" type="button">
+            <span aria-hidden="true">＋</span> নতুন লক্ষ্য
+          </button>
+        </section>
+
+        <section class="stats-grid" aria-label="শেখার সারসংক্ষেপ">
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon icon-lilac">◷</span><span class="stat-period">এই সপ্তাহে</span></div>
+            <div class="stat-value"><span id="weekly-hours">০</span><span class="stat-unit">ঘণ্টা</span></div>
+            <div class="stat-caption">শেখার পেছনে সময়</div>
+            <div class="stat-decoration decoration-lilac" aria-hidden="true"></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon icon-mint">◎</span><span class="stat-period">চলমান</span></div>
+            <div class="stat-value"><span id="active-goals">০</span><span class="stat-unit">টি লক্ষ্য</span></div>
+            <div class="stat-caption">এখন শিখছো</div>
+            <div class="stat-decoration decoration-mint" aria-hidden="true"></div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-icon icon-peach">✓</span><span class="stat-period">দারুণ!</span></div>
+            <div class="stat-value"><span id="completed-goals">০</span><span class="stat-unit">টি লক্ষ্য</span></div>
+            <div class="stat-caption">সম্পন্ন হয়েছে</div>
+            <div class="stat-decoration decoration-peach" aria-hidden="true"></div>
+          </article>
+          <article class="stat-card stat-card-focus">
+            <div class="stat-top"><span class="stat-icon icon-blue">✦</span><span class="stat-period">আজ</span></div>
+            <div class="stat-value"><span id="today-minutes">০</span><span class="stat-unit">মিনিট</span></div>
+            <div class="stat-caption">আজকের শেখা</div>
+            <button class="quick-session" id="quick-session-button" type="button">সময় যোগ করো <span aria-hidden="true">↗</span></button>
+          </article>
+        </section>
+
+        <div class="content-grid">
+          <section class="panel goals-panel" id="goals">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">তোমার পথচলা</p>
+                <h2>শেখার লক্ষ্য</h2>
+              </div>
+              <button class="text-button" id="show-all-button" type="button">সবগুলো দেখো <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="goal-filters" role="group" aria-label="লক্ষ্য ফিল্টার">
+              <button class="filter-chip is-selected" data-filter="all" type="button">সব <span id="all-filter-count">০</span></button>
+              <button class="filter-chip" data-filter="active" type="button">চলমান</button>
+              <button class="filter-chip" data-filter="completed" type="button">সম্পন্ন</button>
+            </div>
+            <div class="goals-list" id="goals-list"></div>
+          </section>
+
+          <div class="right-column">
+            <section class="panel week-panel">
+              <div class="section-heading compact-heading">
+                <div>
+                  <p class="eyebrow">নিয়মিত থাকো</p>
+                  <h2>এই সপ্তাহ</h2>
+                </div>
+                <span class="week-badge">শেষ ৭ দিন</span>
+              </div>
+              <div class="week-chart" id="week-chart" aria-label="গত সাত দিনের শেখার সময়"></div>
+              <div class="chart-footer"><span class="chart-dot"></span><span>পড়ার সময়</span><strong id="chart-total">০ মিনিট</strong></div>
+            </section>
+
+            <section class="panel activity-panel" id="activity">
+              <div class="section-heading compact-heading">
+                <div>
+                  <p class="eyebrow">ছোট ছোট জয়</p>
+                  <h2>সাম্প্রতিক পড়া</h2>
+                </div>
+                <span class="activity-icon" aria-hidden="true">↗</span>
+              </div>
+              <div class="activity-list" id="activity-list"></div>
+            </section>
+          </div>
+        </div>
+        <footer class="footer-note">তোমার অগ্রগতি শুধু এই ব্রাউজারেই সংরক্ষিত থাকে। <span aria-hidden="true">♥</span></footer>
+      </main>
+    </div>
+
+    <dialog class="app-dialog" id="goal-dialog">
+      <form class="dialog-form" id="goal-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">নতুন অধ্যায়</p><h2 id="goal-dialog-title">নতুন শেখার লক্ষ্য</h2></div>
+          <button class="dialog-close" type="button" data-close-dialog aria-label="বন্ধ করো">×</button>
+        </div>
+        <label class="field-label" for="goal-title">কী শিখতে চাও?</label>
+        <input class="text-input" id="goal-title" name="title" maxlength="70" placeholder="যেমন: জাভাস্ক্রিপ্ট শেখা" required />
+        <label class="field-label" for="goal-category">বিষয়</label>
+        <select class="text-input" id="goal-category" name="category">
+          <option value="প্রোগ্রামিং">প্রোগ্রামিং</option>
+          <option value="ভাষা">ভাষা</option>
+          <option value="ডিজাইন">ডিজাইন</option>
+          <option value="ব্যবসা">ব্যবসা</option>
+          <option value="ব্যক্তিগত উন্নয়ন">ব্যক্তিগত উন্নয়ন</option>
+          <option value="অন্যান্য">অন্যান্য</option>
+        </select>
+        <div class="form-row">
+          <div><label class="field-label" for="goal-hours">লক্ষ্য সময় (ঘণ্টা)</label><input class="text-input" id="goal-hours" name="targetHours" type="number" min="1" max="10000" value="20" required /></div>
+          <div><label class="field-label" for="goal-progress">এখন পর্যন্ত (%)</label><input class="text-input" id="goal-progress" name="progress" type="number" min="0" max="100" value="0" required /></div>
+        </div>
+        <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>বাতিল</button><button class="button button-primary" id="goal-submit" type="submit">লক্ষ্য যোগ করো</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="app-dialog" id="session-dialog">
+      <form class="dialog-form" id="session-form">
+        <div class="dialog-heading">
+          <div><p class="eyebrow">আজকের অগ্রগতি</p><h2>পড়ার সময় যোগ করো</h2></div>
+          <button class="dialog-close" type="button" data-close-dialog aria-label="বন্ধ করো">×</button>
+        </div>
+        <label class="field-label" for="session-goal">কোন লক্ষ্য নিয়ে পড়েছো?</label>
+        <select class="text-input" id="session-goal" name="goalId" required></select>
+        <label class="field-label" for="session-minutes">কতক্ষণ পড়েছো? (মিনিট)</label>
+        <input class="text-input" id="session-minutes" name="minutes" type="number" min="1" max="1440" placeholder="যেমন: ৩০" required />
+        <label class="field-label" for="session-note">ছোট্ট নোট <span class="optional-label">ঐচ্ছিক</span></label>
+        <input class="text-input" id="session-note" name="note" maxlength="100" placeholder="আজ কী শিখলে?" />
+        <div class="dialog-actions"><button class="button button-quiet" type="button" data-close-dialog>বাতিল</button><button class="button button-primary" type="submit">সময় সংরক্ষণ করো</button></div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
